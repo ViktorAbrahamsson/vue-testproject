@@ -1,4 +1,4 @@
-# vue-project
+# vue-project that I can use for learning Vue.
 
 ## Project setup
 ```
