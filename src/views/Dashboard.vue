@@ -75,13 +75,13 @@
 <style>
 
   .project.complete {
-    border-left: 4px solid #3cd1c2;
+    border-left: 4px solid #38ccbd;
   }
   .project.ongoing {
-    border-left: 4px solid orange;
+    border-left: 4px solid rgb(253, 165, 0);
   }
   .project.overdue {
-    border-left: 4px solid tomato;
+    border-left: 4px solid rgb(255, 97, 70);
   }
 
   .v-chip.complete {
