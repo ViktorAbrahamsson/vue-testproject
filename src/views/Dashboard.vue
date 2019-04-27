@@ -45,9 +45,7 @@
             </v-layout>
             <v-divider></v-divider>
           </v-card>
-
         </v-container>
-
     </div> 
 </template>
 
