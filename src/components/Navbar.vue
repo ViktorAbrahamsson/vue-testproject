@@ -9,7 +9,7 @@
       <v-toolbar-side-icon @click="drawer = !drawer" class="grey--text"></v-toolbar-side-icon>
       <v-toolbar-title class="text-uppercase grey--text">
         <span class="font-weight-light">Todo</span>
-        <span>Ninja</span>
+        <span>Wictrec</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
@@ -36,9 +36,9 @@
       <v-layout column align-center>
         <v-flex class="mt-5">
           <v-avatar size="100">
-            <img class="text-lg-center" src="/avatar-1.png">
+            <img class="text-lg-center" src="/avatar-1.jpg">
           </v-avatar>
-          <p class="white--text subheading mt-1">The Net Ninja</p>
+          <p class="white--text subheading mt-1">Abrahamsson</p>
         </v-flex>
         <v-flex class="mt-4 mb-3">
           <Popup @projectAdded="snackbar = true" />
