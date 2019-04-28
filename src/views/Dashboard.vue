@@ -93,7 +93,6 @@
   .project.overdue {
     border-left: 4px solid rgb(255, 97, 70);
   }
-
   .v-chip.complete {
     background: #3cd1c2;
   }
