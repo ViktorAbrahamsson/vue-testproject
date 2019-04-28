@@ -47,7 +47,7 @@
                     </p>
                 </v-flex>
                 <v-flex class="mt-4 mb-3">
-                   <Popup/>
+                   <Popup @projectAdded="snackbar = true"/>
                 </v-flex>
             </v-layout>
             <v-list>
@@ -78,7 +78,7 @@ export default {
                 { icon: 'folder', text: 'My Projects', route: '/projects' },
                 { icon: 'person', text: 'Team', route: '/team' },
             ],
-            snackbar: true
+            snackbar: false
         }
     }
 }

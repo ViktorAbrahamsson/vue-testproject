@@ -22,6 +22,7 @@
 </template>
 
 <script>
+  //import db from '@/fb' This needs to be active when the FireBase is online.
   
   export default {
     data() {
@@ -40,6 +41,20 @@
           return project.person === 'Wictrec'
         })
       }
+    },
+    created() { // Part of getting info from database.
+      db.collection('projects').onSnapshot(res => {
+        const changes = res.docChanges();
+
+        changes.forEach(change => {
+          if (change.type === 'added') {
+            this.projects.push({
+              ...change.doc.data(),
+              id: change.doc.id
+            })
+          }
+        })
+      })
     }
   }
 </script>
