@@ -28,7 +28,7 @@
 
 <script>
 import format from 'date-fns/format'
-//import db from '@/fb'
+import db from '@/fb'
 export default {
   data() {
     return {
@@ -52,7 +52,7 @@ export default {
           title: this.title,
           content: this.content,
           due: format(this.due, 'Do MMM YYYY'),
-          person: 'The Net Ninja',
+          person: 'Wictrec', // Hardcoding the current user
           status: 'ongoing'
         }
         db.collection('projects').add(project).then(() => {
