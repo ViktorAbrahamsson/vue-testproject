@@ -1,79 +1,73 @@
 <template>
-    <v-dialog max-width="600px" v-model="dialog">
-        <v-btn flat slot="activator" class="success">Add new project</v-btn>
-        <v-card>
-            <v-card-title>
-                <h2>Add a New Project</h2>
-            </v-card-title>
-            <v-card-text>
-                <v-form class="px-3" ref="form">
-                    <v-text-field label="Title" v-model="title" prepend-icon="folder" :rules="inputRules"></v-text-field>
-                    <v-textarea label="Information" v-model="content" prepend-icon="edit" :rules="inputRules"></v-textarea>
+  <v-dialog max-width="600px" v-model="dialog">
+    <v-btn flat slot="activator" class="success">Add New Project</v-btn>
+    <v-card>
+      <v-card-title>
+        <h2>Add a New Project</h2>
+      </v-card-title>
+      <v-card-text>
+        <v-form class="px-3" ref="form">
+          <v-text-field v-model="title" label="Title" prepend-icon="folder" :rules="inputRules"></v-text-field>
+          <v-textarea v-model="content" label="Information" prepend-icon="edit" :rules="inputRules"></v-textarea>
 
-                    <v-menu>
-                        <v-text-field :value="formattedDate" slot="activator" lable="Due Date" prepend-icon="date_range"
-                        :rules="inputRules"></v-text-field>
-                        v-<v-date-picker v-model="due"></v-date-picker>
-                    </v-menu>
+          <v-menu v-model="menu" :close-on-content-click="false">
+            <v-text-field slot="activator" :rules="inputRules"
+              :value="formattedDate" clearable label="Due date" prepend-icon="date_range">
+            </v-text-field>
+            <v-date-picker v-model="due" @change="menu = false"></v-date-picker>
+          </v-menu>
 
-                    <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
-                    <v-btn flat class="success mx-0 mt-3" @click="submit" :loading="loading">Add Project</v-btn>
-                </v-form>
-            </v-card-text>
-
-        </v-card>
-    </v-dialog>
+          <v-btn flat @click="submit" class="success mx-0 mt-3" :loading="loading">Add Project</v-btn>
+        </v-form>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
 import format from 'date-fns/format'
-
+//import db from '@/fb'
 export default {
-    data() {
-        return {
-            title: '',
-            content: '',
-            due: null,
-            inputRules: [ // v står för value.
-                v => v.length >= 3 || 'Minimum length is 3 characters'
-                // Detta är bara för att lära mig, men i framtiden bör specifika
-                // meddelanden och regler vara för olika element.
-            ],
-            loading: false,
-            dialog: false
+  data() {
+    return {
+      title: '',
+      content: '',
+      due: null,
+      menu: false,
+      inputRules: [
+        v => !!v || 'This field is required',
+        v => v.length >= 3 || 'Minimum length is 3 characters'
+      ],
+      loading: false,
+      dialog: false
+    }
+  },
+  methods: {
+    submit() {
+      if(this.$refs.form.validate()) {
+        this.loading = true
+        const project = { 
+          title: this.title,
+          content: this.content,
+          due: format(this.due, 'Do MMM YYYY'),
+          person: 'The Net Ninja',
+          status: 'ongoing'
         }
-    },
-    methods: {
-        submit() {
-            if (this.$refs.form.validate()) {
-                //this.loading = true;
-
-                const project = {
-                    title: this.title,
-                    content: this.content,
-                    due: format(this.due, 'Do MMM YYYY'),
-                    person: 'Wictrec',
-                    status: 'ongoing'
-                }
-
-                // Detta funkar inte just nu på grund av att jag inte har implementerat firebase på grund av att
-                // jag inte vet hur det funkar.
-                db.collection('project').add(project).then(() => { 
-                    this.loading = false;
-                    this.dialog = false;
-                    this.$emit('projectAdded');
-                })
-
-                console.log(this.title, this.content)
-            }    
-        }
-    },
-    computed: {
-        formattedDate() {
-            return this.due ? format(this.due, 'Do MMM YYYY') : ''
-        }
-    },
+        db.collection('projects').add(project).then(() => {
+          this.loading = false
+          this.dialog = false
+          this.$emit('projectAdded')
+        })
+      }
+    }
+  },
+  computed: {
+    formattedDate () {
+      console.log(this.due)
+      return this.due ? format(this.due, 'Do MMM YYYY') : ''
+    }
+  }
 }
 </script>
-
