@@ -1,5 +1,5 @@
 <template>
-    <v-dialog max-width="600px">
+    <v-dialog max-width="600px" v-model="dialog">
         <v-btn flat slot="activator" class="success">Add new project</v-btn>
         <v-card>
             <v-card-title>
@@ -18,7 +18,7 @@
 
                     <v-spacer></v-spacer>
 
-                    <v-btn flat class="success mx-0 mt-3" @click="submit">Add Project</v-btn>
+                    <v-btn flat class="success mx-0 mt-3" @click="submit" :loading="loading">Add Project</v-btn>
                 </v-form>
             </v-card-text>
 
@@ -39,12 +39,31 @@ export default {
                 v => v.length >= 3 || 'Minimum length is 3 characters'
                 // Detta är bara för att lära mig, men i framtiden bör specifika
                 // meddelanden och regler vara för olika element.
-            ]
+            ],
+            loading: false,
+            dialog: false
         }
     },
     methods: {
         submit() {
             if (this.$refs.form.validate()) {
+                //this.loading = true;
+
+                const project = {
+                    title: this.title,
+                    content: this.content,
+                    due: format(this.due, 'Do MMM YYYY'),
+                    person: 'Wictrec',
+                    status: 'ongoing'
+                }
+
+                // Detta funkar inte just nu på grund av att jag inte har implementerat firebase på grund av att
+                // jag inte vet hur det funkar.
+                db.collection('project').add(project).then(() => { 
+                    this.loading = false;
+                    this.dialog = false;
+                })
+
                 console.log(this.title, this.content)
             }    
         }
